@@ -93,11 +93,11 @@ app.get("/", async (req, res) => {
 
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-track {
-    background: #ffd5ec;
+    background:rgb(150, 140, 150);
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #ff69b4;
+    background:rgb(150, 140, 150);
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb:hover { background: #ff3e9e; }
@@ -130,7 +130,7 @@ app.get("/", async (req, res) => {
   }
 
   .sidebar a {
-    color: #ffdce9;
+    color:rgb(207, 203, 203);
     font-weight: 600;
     padding: 12px 18px;
     margin-bottom: 0.75rem;
@@ -142,9 +142,9 @@ app.get("/", async (req, res) => {
 
   .sidebar a:hover,
   .sidebar a.active {
-    background-color: #ff69b4;
+    background-color:rgb(3, 3, 3);
     color: white;
-    box-shadow: inset 0 0 8px 2px rgba(255, 105, 180, 0.6);
+    box-shadow: inset 0 0 8px 2px rgba(43, 41, 42, 0.6);
   }
 
   .hamburger {
@@ -162,7 +162,7 @@ app.get("/", async (req, res) => {
 
   .hamburger span {
     height: 4px;
-    background: #ff69b4;
+    background:rgb(0, 0, 0);
     border-radius: 2px;
     transition: all 0.3s ease;
   }
@@ -225,7 +225,7 @@ table {
 }
 
 thead tr {
-  background-color: #ff69b4;
+  background-color:rgb(70, 65, 67);
   color: white;
 }
 
@@ -237,7 +237,7 @@ thead th, tbody td {
 }
 
 tbody tr {
-  background: #ffeaf3;
+  background:rgb(233, 227, 229);
   border-radius: 12px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -269,8 +269,8 @@ tbody td:hover {
   }
 
   .btn-edit:hover {
-    background: #ff85c1;
-    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.4);
+    background:rgb(80, 73, 77);
+    box-shadow: 0 4px 10px rgba(129, 119, 124, 0.4);
   }
 
   .btn-delete {
@@ -333,26 +333,34 @@ tbody td:hover {
           }" tabindex="0" aria-labelledby="tab${i + 1}">
           <table>
             <thead>
-              <tr>
-                ${Object.keys(allData[col][0] || {})
-                  .map((h) => `<th>${h}</th>`)
-                  .join("")}
-                
-              </tr>
+              <thead>
+  <tr>
+    ${Object.keys(allData[col][0] || {})
+      .map((h) => `<th>${h}</th>`)
+      .join("")}
+    <th>Actions</th>
+  </tr>
+</thead>
+
             </thead>
             <tbody>
-              ${allData[col]
-                .map(
-                  (row) => `
-                <tr>
-                  ${Object.values(row)
-                    .map((v) => `<td>${v}</td>`)
-                    .join("")}
-              
-                </tr>`
-                )
-                .join("")}
-            </tbody>
+  ${allData[col]
+    .map((row) => {
+      const rowId = row._id || ""; // Use a valid ID if available
+      return `
+      <tr>
+        ${Object.values(row)
+          .map((v) => `<td>${v}</td>`)
+          .join("")}
+        <td>
+          <button class="btn btn-edit" onclick="editRow('${col}', '${rowId}')">Edit</button>
+          <button class="btn btn-delete" onclick="deleteRow('${col}', '${rowId}')">Delete</button>
+        </td>
+      </tr>`;
+    })
+    .join("")}
+</tbody>
+
           </table>
         </section>
       `
